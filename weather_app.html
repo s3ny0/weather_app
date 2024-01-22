@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Audiowide';
+        }
+        p{
+            font-size: 1.2rem;
+        }
+        .app{
+            width: 330px;
+            margin: 100px auto;
+            padding: 20px 40px;
+            border: 6px solid black;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title{
+            text-align: center;
+            font-size: 2.3rem;
+        }
+        .top-row{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #date, #time{
+            text-align: center;
+        }
+        #city{
+            margin: 50px auto 0px;
+            text-align: center;
+        }
+        #weather-icon{
+            height: 150px;
+            width: 150px;
+            margin: 30px auto;
+            background-attachment: local;
+            background-size: cover;
+        }
+        #temp{
+            margin: 10px auto;
+            font-size: 2.5rem;
+            font-family: 'Audiowide';
+            font-weight: bolder;
+        }
+        .bottom-row{
+            width: 100%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+    </style>
+    <title>Weather App</title>
+</head>
+<body>
+    <section class="app">
+        <h1 class="title">Weather App</h1>
+        <p id="city">Your City</p>
+        <div id="weather-icon"></div>
+        <p id="description"></p>
+        <h1 id="temp">TEMP</h1>
+        <div class="top-row">
+            <h1 id="date">Date</h1>
+            <h1 id="time">Time</h1>
+        </div>
+        <div class="bottom-row">
+            <div>
+                <p id="humidity">Humidity</p>
+            </div>
+            <div>
+                <p id="wind">Wind</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        //Background color changes based on the time
+
+        //Get the current hour
+        var currentHour = new Date().getHours();
+
+        if(currentHour >= 6 && currentHour < 12) {
+            //Morning
+            document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(84, 151, 228), rgb(64, 118, 180), rgb(40, 77, 119))";
+        } else if(currentHour >= 12 && currentHour < 15) {
+            //Afternoon
+            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(241, 239, 64), rgb(248, 244, 1), rgb(240, 207, 18))";
+        } else if(currentHour >= 15 && currentHour < 18) {
+            //Evening
+            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(231, 176, 25), rgb(248, 141, 1), rgb(182, 109, 14))";
+        } else if(currentHour >= 18 && currentHour < 24) {
+            //Night
+            document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(51, 53, 80), rgb(29, 26, 41), rgb(26, 27, 41))";
+        } else{
+            //Dawn
+            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(165, 165, 164), rgb(77, 77, 77))";
+        }
+
+        //Display the date
+
+        const displayDate = () => {
+            var day = new Date().getDate();
+            var month = new Date().getMonth() + 1;
+            var year = new Date().getFullYear();
+
+            const dateDisplay = document.getElementById("date");
+
+            dateDisplay.innerHTML = `${day} / ${month} / ${year}`;
+        }
+
+        //Display the time
+
+        const displayTime = () => {
+            var hours = new Date().getHours();
+            var minutes = new Date().getMinutes();
+
+            const timeDisplay = document.getElementById("time");
+
+            timeDisplay.innerHTML = `${hours}:${minutes}`;
+        }
+
+        //Get location coordinates using geolocation
+        const getLocation = () => {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        //Call the function to get weather information based on the location
+                        getWeatherByLocation(latitude, longitude);
+                    },
+                    error => {
+                        console.error("Error getting geolocation:", error);
+                    },
+                    {
+                        //Improving the accuracy of the location
+                        enableHighAccuracy: true, //Use GPS if available
+                        maximumAge: 30000, //Accept a cached position that is no more than 30 seconds old
+                        timeout: 5000 //Stop trying to get location after 5 seconds
+                    }
+                );
+            } else {
+                console.error("Geolocation is not supported by this browser.") //Return error message if browser does not support geolocation.
+            }
+        };
+
+        //Get weather information by location
+        const getWeatherByLocation = (latitude, longitude) => {
+            const apiKey = '4ec2450f337a6aa01f2764f8672fcfbd'; //API Key from Open weather map.
+            
+            //API endpoint for OpenWeatherMap using geolocation
+            const apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+            
+            //Make a GET request to the OpenWeatherMap API
+            fetch(apiURL)
+                .then(response => {
+                    if(!response.ok) {
+                        throw new Error('HTTP error! Status: ${response.status}');
+                    }
+                    return response.json();
+                })
+                .then(weatherData => {
+                    //Process the received weather data
+                    console.log(weatherData);
+    
+                    //Update the app UI with the weather information
+                    updateUI(weatherData);
+                })
+                .catch(error => {
+                    console.error("Error fetching weather data:", error);
+                });
+        };
+
+        //Function to update the UI with weather information
+        function updateUI(weatherData) {
+            //Extract relevant data
+            const city = weatherData.name;
+            const description = weatherData.weather[0].description;
+            const temperature = weatherData.main.temp;
+            const humidity = weatherData.main.humidity;
+            const windSpeed = weatherData.wind.speed;
+
+            //Varying the weather icon based on the description
+            if(description.includes('windy')) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('windy.png')";
+            } else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds")) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('clouds.png')";
+            } else if(description.includes("heavy intensity rain") || description.includes("very heavy rain") || description.includes("extreme rain") || description.includes("thunderstorm with heavy rain")) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
+            }
+
+            document.querySelector('#city').innerHTML = `${city}`;
+            document.querySelector('#description').innerHTML = `${description}`;
+            document.querySelector('#temp').innerHTML = `${temperature} °C`;
+            document.querySelector('#humidity').innerHTML = `Humidity: ${humidity}`;
+            document.querySelector('#wind').innerHTML = `Wind Speed: ${windSpeed}`;
+
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            displayDate();
+            setInterval(displayTime, 1000);
+            getLocation();
+            updateUI();
+        });
+
+    </script>
+</body>
+</html>
