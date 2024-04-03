@@ -245,7 +245,10 @@
             //Varying the weather icon based on the description
             if(description.includes('windy')) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('windy.png')";
-            } else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds")) {
+            } else if(description.includes("clear sky") {
+document.querySelector('#weather-icon').style.backgroundImage = "url('sun.png')";
+}
+else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds")) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('clouds.png')";
             } else if(description.includes("heavy intensity rain") || description.includes("very heavy rain") || description.includes("extreme rain") || description.includes("thunderstorm with heavy rain")) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
