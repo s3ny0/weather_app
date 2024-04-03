@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide|Catamaran">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.2.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+
     <style>
         @keyframes pulse {
             0%{
@@ -21,7 +23,7 @@
             width: 320px;
             margin: 25px auto;
             padding: 20px 15px;
-            border-radius: 5px;
+            border-radius: 20px;
             color: white;
             display: flex;
             flex-direction: column;
@@ -65,10 +67,11 @@
         footer{
             width: 100%;
             background-color: rgb(15, 15, 15);
-            border-radius: 5px;
+            border-radius: 18px;
         }
         .top-row{
-            width: 100%;
+            width: 95%;
+            margin: 0px auto;
             display: flex;
             align-items: flex-start;
             justify-content: space-evenly;
@@ -93,6 +96,7 @@
         }
         #humidity, #wind{
             width: 40%;
+            font-size: 2rem;
         }
         .bottom-row div{
             width: 40%;
@@ -125,59 +129,51 @@
             <hr style="height: 2px; width: 95%; margin: 10px auto; border: none; background-color: white;">
             <div class="bottom-row">
                 <div>
-                    <i class="fi fi-rs-wind"></i><p id="humidity"></p>
+                    <i class="fi fi-rs-wind" style="font-size: 2rem;"></i><p id="humidity"></p>
                 </div>
                 <div>
-                    <i class="fi fi-rs-humidity"></i><p id="wind"></p>
+                    <i class="fi fi-rs-humidity" style="font-size: 2rem;"></i><p id="wind"></p>
                 </div>
             </div>
 
         </footer>
     </section>
     <script>
-        //Background color changes based on the time
-
-        //Get the current hour
-        var currentHour = new Date().getHours();
-
-        if(currentHour >= 6 && currentHour < 12) {
-            //Morning
-            document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(84, 151, 228), rgb(64, 118, 180), rgb(40, 77, 119))";
-        } else if(currentHour >= 12 && currentHour < 15) {
-            //Afternoon
-            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(241, 239, 64), rgb(248, 244, 1), rgb(240, 207, 18))";
-        } else if(currentHour >= 15 && currentHour < 18) {
-            //Evening
-            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(231, 176, 25), rgb(248, 141, 1), rgb(182, 109, 14))";
-        } else if(currentHour >= 18 && currentHour < 24) {
-            //Night
-            document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(51, 53, 80), rgb(29, 26, 41), rgb(26, 27, 41))";
-        } else{
-            //Dawn
-            document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(165, 165, 164), rgb(77, 77, 77))";
-        }
-
-        //Display the date
-
+        
+        //Display the date with the day and month name
         const displayDate = () => {
             var day = new Date().getDate();
             var month = new Date().getMonth() + 1;
             var year = new Date().getFullYear();
+            var weekDay = new Date().getDay();
 
+            var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var monthsOfTheYear = ['December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
+
+            var dayName = daysOfTheWeek[weekDay]; //Assign a day of the week to a day name.
+            var monthName = monthsOfTheYear[month]; //Assign a month of the year to a name.
             const dateDisplay = document.getElementById("date");
 
-            dateDisplay.innerHTML = `${day} / ${month} / ${year}`;
+            dateDisplay.innerHTML = `${dayName}, ${monthName} ${day} ${year}`;
         }
 
-        //Display the time
-
+        //Display the time in 12 hour format
         const displayTime = () => {
             var hours = new Date().getHours();
             var minutes = new Date().getMinutes();
 
+            const adjustedHours = hours > 12? hours - 12: hours; //Adjust the time to display in a 12 hour format
+            const adjustedMinutes = minutes < 10? '0' + minutes: minutes; //Display single digits with leading zeros
+            
             const timeDisplay = document.getElementById("time");
 
-            timeDisplay.innerHTML = `${hours}:${minutes}`;
+            if (hours >=12) {
+                timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
+            } else if(hours === 12) {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
+            } else {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
+            }
         }
 
         //Get location coordinates using geolocation
@@ -233,6 +229,30 @@
                 });
         };
 
+        //Update the interface colors based on the time of the day
+        function updateColors () {
+            //Get the current hour
+            var currentHour = new Date().getHours();
+    
+            if(currentHour >= 6 && currentHour < 12) {
+                //Morning
+                document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(84, 120, 185), rgb(64, 118, 180), rgb(40, 77, 119))";
+            } else if(currentHour >= 12 && currentHour < 16) {
+                //Afternoon
+                document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(241, 239, 64), rgb(248, 244, 1), rgb(240, 207, 18))";
+            } else if(currentHour >= 16 && currentHour < 19) {
+                //Evening
+                document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(231, 176, 25), rgb(248, 141, 1), rgb(182, 141, 15))";
+            } else if(currentHour >= 19 && currentHour < 24 || currentHour >= 0 && currentHour < 4) {
+                //Night
+                document.querySelector(".app").style.background = "rgb(0, 0, 0)";
+            } else{
+                //Dawn
+                document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(165, 165, 164), rgb(77, 77, 77))";
+            }
+
+        }
+
         //Function to update the UI with weather information
         function updateUI(weatherData) {
             //Extract relevant data
@@ -243,15 +263,22 @@
             const windSpeed = weatherData.wind.speed;
 
             //Varying the weather icon based on the description
+
+            //Get the current hour
+            var currentHour = new Date().getHours();
+            
             if(description.includes('windy')) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('windy.png')";
             } else if(description.includes("clear sky")) {
-document.querySelector('#weather-icon').style.backgroundImage = "url('sun.png')";
-}
-else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds")) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('sun.png')";
+            } else if(description.includes("clear sky") && currentHour >= 17) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('moon.png')";
+            } else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds")) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('clouds.png')";
             } else if(description.includes("heavy intensity rain") || description.includes("very heavy rain") || description.includes("extreme rain") || description.includes("thunderstorm with heavy rain")) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
+            } else if(description.includes("light rain") || description.includes("showers")) {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('light-rain.png')";
             }
 
             document.querySelector('#city').innerHTML = `${city}`;
@@ -266,8 +293,9 @@ else if(description.includes("few clouds") || description.includes("scattered cl
         document.addEventListener('DOMContentLoaded', function() {
             displayDate();
             setInterval(displayTime, 1000);
-            getLocation();
-            updateUI();
+            setInterval(updateColors, 1000);
+            setInterval(getLocation, 180000);
+            setInterval(function() {updateUI(weatherData)}, 1000);
         });
 
     </script>
