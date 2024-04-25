@@ -1,4 +1,4 @@
-7<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -281,6 +281,8 @@
                 document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
             } else if(description.includes("light rain") || description.includes("showers")) {
                 document.querySelector('#weather-icon').style.backgroundImage = "url('light-rain.png')";
+            } else if(description.includes("haze") {
+                document.querySelector('#weather-icon').style.backgroundImage = "url('haze.png')";
             }
 
             document.querySelector('#city').innerHTML = `${city}`;
