@@ -236,10 +236,10 @@
     
             if(currentHour >= 6 && currentHour < 12) {
                 //Morning
-                document.querySelector(".app").style.background = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
+                document.body = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
             } else if(currentHour >= 12 && currentHour < 16) {
                 //Afternoon
-                document.querySelector(".app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
+                document.body = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
             } else if(currentHour >= 16 && currentHour < 19) {
                 //Evening
                 document.querySelector(".app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
