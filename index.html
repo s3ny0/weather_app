@@ -258,7 +258,7 @@
             //Extract relevant data
             const city = weatherData.name;
             const description = weatherData.weather[0].description;
-            const temperature = weatherData.main.temp;
+            const temperature = Math.floor(weatherData.main.temp);
             const humidity = weatherData.main.humidity;
             const windSpeed = weatherData.wind.speed;
 
