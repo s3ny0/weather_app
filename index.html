@@ -236,19 +236,19 @@
     
             if(currentHour >= 6 && currentHour < 12) {
                 //Morning
-                document.body = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
+                document.body.style.background = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
             } else if(currentHour >= 12 && currentHour < 16) {
                 //Afternoon
-                document.body = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
+                document.body.style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
             } else if(currentHour >= 16 && currentHour < 19) {
                 //Evening
-                document.querySelector(".app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
+                document.body.style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
             } else if(currentHour >= 19 && currentHour < 24 || currentHour >= 0 && currentHour < 4) {
                 //Night
-                document.querySelector(".app").style.background = "rgb(31, 33, 36)";
+                document.body.style.background = "rgb(31, 33, 36)";
             } else{
                 //Dawn
-                document.querySelector(".app").style.background = "linear-gradient(to bottom right, rgb(190, 190, 190), rgb(230, 230, 230), rgb(77, 77, 77))";
+                document.body.style.background = "linear-gradient(to bottom right, rgb(190, 190, 190), rgb(230, 230, 230), rgb(77, 77, 77))";
             }
 
         }
