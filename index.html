@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,145 +8,161 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.2.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 
     <style>
-        @keyframes pulse {
-            0%{
-                transform: scale(1);
-            }
-            50%{
-                transform: scale(1.1);
-            }
-            100%{
-                transform: scale(1);
-            }
-        }
-
+      @media screen and (max-width: 500px) {
         .app{
-            width: 95%;
-            margin: 0px auto;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 50px 0px;
-            border-radius: 20px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Catamaran';
+          height: 400px;
+          width: 270px;
         }
-        nav{
-            height: 40px;
-            width: 100%;
-            border-bottom: 2px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .visuals{
+          display: none;
         }
-
-        .icon-card{
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .info{
+          display: none;
         }
-        #weather-icon{
-            height: 300px;
-            width: 300px;
-            margin: 20px 30px;
-            background-attachment: local;
-            background-size: cover;
-            animation: pulse 4s infinite;
+        .description-mobile p{
+          margin-top: -20px;
+          margin-bottom: 30px;
         }
-        #city{
-            width: 150px;
-            margin: 10px 30px;
-            font-size: 3rem
-            text-align: center;
+        .visuals-mobile{
+          height: 50%;
+          width: 100%;
+          margin: 20px auto;
         }
-        #temp{
-            width: 100%;
-            margin: 10px 30px;
-            font-size: 6rem;
-            font-family: 'Audiowide';
-            font-weight: bolder;
-            text-align: right;
+        .temp-mobile{
+          width: 100%;
+          text-align: center;
+        }
+        .details-mobile{
+          width: 250px;
+          padding: 10px;
+          background-color: white;
+          border-radius: 15px;
+        }
+        .city-mobile{
+          width: 100%;
+          text-align: center;
+          margin: 50px auto;
+        }
+        .break-down-mobile{
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          height: 80px;
+          width: 100%;
+        }
+        .break-down-mobile div{
+          height: 70px;
+          width: 30%;
+          border-radius: 10px;
+          background-color: white;
+        }
+      }
+      @media screen and (min-width: 501px) {
+        .app{
+          width: 500px;
+        }
+        .visuals{
+          height: 300px;
+          width: 58%;
+        }
+        .info{
+          height: 300px;
+          width: 40%;
+          padding: 5px;
         }
         
-        footer{
-            width: 100%;
-            background-color: rgb(15, 15, 15);
-            border-radius: 18px;
-        }
-        .top-row{
-            width: 95%;
-            margin: 0px auto;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-evenly;
-        }
-        .date-and-time{
-            width: 50%;
-        }
-        #time{
-            font-family: 'Audiowide';
-        }
-        #description{
-            width: 40%;
-            text-align: right;
-        }
-
-        .bottom-row{
-            width: 48%;
-            margin: 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-        #humidity, #wind{
-            width: 40%;
-            font-size: 2rem;
-        }
-        .bottom-row div{
-            width: 40%;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-
+      }
+      .app{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 5px 20px;
+        background-color: blue;
+        border-radius: 20px;
+      }
+      .info{
+        border-radius: 15px;
+        background-color: white;
+      }
+      
+      .app-mobile{
+        height: 100%;
+        width: 100%;
+        overflow-y: scroll;
+      }
+      
+      .app-mobile::-webkit-scrollbar{
+        display: none;
+      }
+      
+      
     </style>
     <title>Weather App</title>
 </head>
 <body>
-    <section class="app">
-        <nav>
-            <h3>Today's Weather</h3>
-        </nav>
-        <div class="icon-card">
-            <div id="weather-icon"></div>
-            <p id="city">Your City</p>
-            <h2 id="temp">TEMP</h2>
+    <div class="app" id="app">
+      <div class="app-mobile">
+        <div class="description-mobile">
+          <h3 class="weather-description">It is raining now</h3>
+          <p class="date" id="date"></p>
+          <p class="time-mobile" id="time"></p>
         </div>
-        <footer>
-            <div class="top-row">
-                <div class="date-and-time">
-                    <h1 id="time">Time</h1>
-                    <h3 id="date">Date</h3>
-                </div>
-                <p id="description"></p>
+        <div class="visuals-mobile">
+          
+        </div>
+        <h1 class="temp-mobile">30degrees</h1>
+        <div class="details-mobile">
+          <h3 class="city-mobile">City</h3>
+          <div class="break-down-mobile">
+            <div>
+              
             </div>
-            <hr style="height: 2px; width: 95%; margin: 10px auto; border: none; background-color: white;">
-            <div class="bottom-row">
-                <div>
-                    <i class="fi fi-rs-wind" style="font-size: 2rem;"></i><p id="humidity"></p>
-                </div>
-                <div>
-                    <i class="fi fi-rs-humidity" style="font-size: 2rem;"></i><p id="wind"></p>
-                </div>
+            <div>
+              
             </div>
-
-        </footer>
-    </section>
+            <div>
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="visuals">
+        <h1 class="time" id="time">00:00</h1>
+        <script>
+          //Display the time in 12 hour format
+          const displayTime = () => {
+              var hours = new Date().getHours();
+              var minutes = new Date().getMinutes();
+  
+              const adjustedHours = hours > 12? hours - 12: hours; //Adjust the time to display in a 12 hour format
+              const adjustedMinutes = minutes < 10? '0' + minutes: minutes; //Display single digits with leading zeros
+              
+              const timeDisplay = document.getElementById("time");
+  
+              if (hours >=12) {
+                  timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
+              } else if(hours === 12) {
+                  timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
+              } else {
+                  timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
+              }
+          }
+          
+           // Run the displayTime function every second once the page is loaded
+          window.onload = () => {
+            setInterval(displayTime, 1000);
+          };
+        </script>
+      </div>
+      <div class="info">
+        
+      </div>
+    </div>
     <script>
         
         //Display the date with the day and month name
@@ -165,24 +182,7 @@
             dateDisplay.innerHTML = `${dayName}, ${monthName} ${day} ${year}`;
         }
 
-        //Display the time in 12 hour format
-        const displayTime = () => {
-            var hours = new Date().getHours();
-            var minutes = new Date().getMinutes();
-
-            const adjustedHours = hours > 12? hours - 12: hours; //Adjust the time to display in a 12 hour format
-            const adjustedMinutes = minutes < 10? '0' + minutes: minutes; //Display single digits with leading zeros
-            
-            const timeDisplay = document.getElementById("time");
-
-            if (hours >=12) {
-                timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
-            } else if(hours === 12) {
-                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
-            } else {
-                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
-            }
-        }
+        
 
         //Get location coordinates using geolocation
         const getLocation = () => {
@@ -244,19 +244,19 @@
     
             if(currentHour >= 6 && currentHour < 12) {
                 //Morning
-                document.body.style.background = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
+                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
             } else if(currentHour >= 12 && currentHour < 16) {
                 //Afternoon
-                document.body.style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
+                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
             } else if(currentHour >= 16 && currentHour < 19) {
                 //Evening
-                document.body.style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
+                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
             } else if(currentHour >= 19 && currentHour < 24 || currentHour >= 0 && currentHour < 4) {
                 //Night
-                document.body.style.background = "rgb(31, 33, 36)";
+                document.getElementById("app").style.background = "rgb(50, 50, 50)";
             } else{
                 //Dawn
-                document.body.style.background = "linear-gradient(to bottom right, rgb(190, 190, 190), rgb(230, 230, 230), rgb(77, 77, 77))";
+                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(190, 190, 190), rgb(230, 230, 230), rgb(77, 77, 77))";
             }
 
         }
