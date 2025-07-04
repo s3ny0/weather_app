@@ -1,168 +1,142 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide|Catamaran">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Combo|Audiowide|Catamaran">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.2.0/uicons-regular-straight/css/uicons-regular-straight.css'>
-
     <style>
-      @media screen and (max-width: 500px) {
+        @keyframes pulse {
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.1);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+
         .app{
-          height: 400px;
-          width: 270px;
+            width: 320px;
+            margin: 25px auto;
+            padding: 20px 15px;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Catamaran';
         }
-        .visuals{
-          display: none;
+        nav{
+            height: 40px;
+            width: 100%;
+            border-bottom: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .info{
-          display: none;
+
+        .icon-card{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .description-mobile p{
-          margin-top: -20px;
-          margin-bottom: 30px;
+        #city{
+            margin: 30px auto 0px;
+            text-align: center;
         }
-        .visuals-mobile{
-          height: 50%;
-          width: 100%;
-          margin: 20px auto;
+        #weather-icon{
+            height: 150px;
+            width: 150px;
+            margin: 15px auto;
+            background-attachment: local;
+            background-size: cover;
+            animation: pulse 4s infinite;
         }
-        .temp-mobile{
-          width: 100%;
-          text-align: center;
-        }
-        .details-mobile{
-          width: 250px;
-          padding: 10px;
-          background-color: white;
-          border-radius: 15px;
-        }
-        .city-mobile{
-          width: 100%;
-          text-align: center;
-          margin: 50px auto;
-        }
-        .break-down-mobile{
-          display: flex;
-          align-items: center;
-          justify-content: space-evenly;
-          height: 80px;
-          width: 100%;
-        }
-        .break-down-mobile div{
-          height: 70px;
-          width: 30%;
-          border-radius: 10px;
-          background-color: white;
-        }
-      }
-      @media screen and (min-width: 501px) {
-        .app{
-          width: 500px;
-        }
-        .visuals{
-          height: 300px;
-          width: 58%;
-        }
-        .info{
-          height: 300px;
-          width: 40%;
-          padding: 5px;
+        #temp{
+            margin: 10px auto;
+            font-size: 2rem;
+            font-family: 'Audiowide';
+            font-weight: bolder;
         }
         
-      }
-      .app{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 5px 20px;
-        background-color: blue;
-        border-radius: 20px;
-      }
-      .info{
-        border-radius: 15px;
-        background-color: white;
-      }
-      
-      .app-mobile{
-        height: 100%;
-        width: 100%;
-        overflow-y: scroll;
-      }
-      
-      .app-mobile::-webkit-scrollbar{
-        display: none;
-      }
-      
-      
+        footer{
+            width: 100%;
+            background-color: rgb(15, 15, 15);
+            border-radius: 5px;
+        }
+        .top-row{
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-evenly;
+        }
+        .date-and-time{
+            width: 50%;
+        }
+        #time{
+            font-family: 'Audiowide';
+        }
+        #description{
+            width: 40%;
+            text-align: right;
+        }
+
+        .bottom-row{
+            width: 100%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        #humidity, #wind{
+            width: 40%;
+            font-size: 2rem;
+        }
+        .bottom-row div{
+            width: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
     </style>
     <title>Weather App</title>
 </head>
 <body>
-    <div class="app" id="app">
-      <div class="app-mobile">
-        <div class="description-mobile">
-          <h3 class="weather-description">It is raining now</h3>
-          <p class="date" id="date"></p>
-          <p class="time-mobile" id="time"></p>
+    <section class="app">
+        <nav>
+            <h3>Today's Weather</h3>
+        </nav>
+        <div class="icon-card">
+            <p id="city">Your City</p>
+            <div id="weather-icon"></div>
+            <h2 id="temp">TEMP</h2>
         </div>
-        <div class="visuals-mobile">
-          
-        </div>
-        <h1 class="temp-mobile">30degrees</h1>
-        <div class="details-mobile">
-          <h3 class="city-mobile">City</h3>
-          <div class="break-down-mobile">
-            <div>
-              
+        <footer>
+            <div class="top-row">
+                <div class="date-and-time">
+                    <h1 id="time">Time</h1>
+                    <p id="date">Date</p>
+                </div>
+                <p id="description"></p>
             </div>
-            <div>
-              
+            <hr style="height: 2px; width: 95%; margin: 10px auto; border: none; background-color: white;">
+            <div class="bottom-row">
+                <div>
+                    <i class="fi fi-rs-wind" style="font-size: 2rem;"></i><p id="humidity"></p>
+                </div>
+                <div>
+                    <i class="fi fi-rs-humidity" style="font-size: 2rem;"></i><p id="wind"></p>
+                </div>
             </div>
-            <div>
-              
-            </div>
-          </div>
-        </div>
-        
-      </div>
-      <div class="visuals">
-        <h1 class="time" id="time">00:00</h1>
-        <script>
-          //Display the time in 12 hour format
-          const displayTime = () => {
-              var hours = new Date().getHours();
-              var minutes = new Date().getMinutes();
-  
-              const adjustedHours = hours > 12? hours - 12: hours; //Adjust the time to display in a 12 hour format
-              const adjustedMinutes = minutes < 10? '0' + minutes: minutes; //Display single digits with leading zeros
-              
-              const timeDisplay = document.getElementById("time");
-  
-              if (hours >=12) {
-                  timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
-              } else if(hours === 12) {
-                  timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
-              } else {
-                  timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
-              }
-          }
-          
-           // Run the displayTime function every second once the page is loaded
-          window.onload = () => {
-            setInterval(displayTime, 1000);
-          };
-        </script>
-      </div>
-      <div class="info">
-        
-      </div>
-    </div>
+
+        </footer>
+    </section>
+
     <script>
         
         //Display the date with the day and month name
@@ -175,14 +149,32 @@
             var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             var monthsOfTheYear = ['December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
 
-            var dayName = daysOfTheWeek[weekDay]; //Assign a day of the week to a day name.
+            var dayName = daysOfTheWeek[weekDay]; //Assign a day of the week to a name.
             var monthName = monthsOfTheYear[month]; //Assign a month of the year to a name.
+
             const dateDisplay = document.getElementById("date");
 
             dateDisplay.innerHTML = `${dayName}, ${monthName} ${day} ${year}`;
         }
 
-        
+        //Display the time in a 12 hour format
+        const displayTime = () => {
+            var hours = new Date().getHours();
+            var minutes = new Date().getMinutes();
+            
+            const adjustedHours = hours > 12 ? hours- 12: hours; //Adjust the time to display in a 12 hour format
+            const adjustedMinutes = minutes < 10 ? '0' + minutes: minutes; //Display single digit minutes with leading zeros
+            
+            const timeDisplay = document.getElementById("time");
+            
+            if(hours >= 12) {
+                timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
+            } else if(hours === 12) {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
+            } else {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
+            }
+        }
 
         //Get location coordinates using geolocation
         const getLocation = () => {
@@ -231,84 +223,79 @@
     
                     //Update the app UI with the weather information
                     updateUI(weatherData);
-                })
+                    
+                }   )
                 .catch(error => {
                     console.error("Error fetching weather data:", error);
                 });
-        };
+            };
 
-        //Update the interface colors based on the time of the day
-        function updateColors () {
-            //Get the current hour
-            var currentHour = new Date().getHours();
-    
-            if(currentHour >= 6 && currentHour < 12) {
-                //Morning
-                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(120, 208, 240), rgb(70, 183, 224), rgb(46, 166, 209))";
-            } else if(currentHour >= 12 && currentHour < 16) {
-                //Afternoon
-                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(120, 208, 240), rgb(70, 183, 224))";
-            } else if(currentHour >= 16 && currentHour < 19) {
-                //Evening
-                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(250, 240, 95), rgb(245, 195, 44), rgb(240, 139, 7))";
-            } else if(currentHour >= 19 && currentHour < 24 || currentHour >= 0 && currentHour < 4) {
-                //Night
-                document.getElementById("app").style.background = "rgb(50, 50, 50)";
-            } else{
-                //Dawn
-                document.getElementById("app").style.background = "linear-gradient(to bottom right, rgb(190, 190, 190), rgb(230, 230, 230), rgb(77, 77, 77))";
-            }
+            //Update the interface colors based on the time of the day.
+            function updateColors() {
 
-        }
-
-        //Function to update the UI with weather information
-        function updateUI(weatherData) {
-            //Extract relevant data
-            const city = weatherData.name;
-            const description = weatherData.weather[0].description;
-            const temperature = Math.floor(weatherData.main.temp);
-            const humidity = weatherData.main.humidity;
-            const windSpeed = weatherData.wind.speed;
-
-            //Varying the weather icon based on the description
-
-            //Get the current hour
-            var currentHour = new Date().getHours();
-            
-            if(description.includes('windy')) {
-                document.querySelector('#weather-icon').style.backgroundImage = "url('windy.png')";
-            } else if(description.includes("clear sky")) {
-                if (currentHour >= 17 || currentHour < 6) {
-                    document.querySelector('#weather-icon').style.backgroundImage = "url('moon.png')";
-                } else {
-                    document.querySelector('#weather-icon').style.backgroundImage = "url('sun.png')";
+                var currentHour = new Date().getHours(); // Get the current hour
+        
+                if(currentHour >= 6 && currentHour < 12) {
+                    //Color scheme for morning
+                    document.querySelector(".app").style.background = "linear-gradient(135deg, rgb(84, 120, 185), rgb(64, 118, 180), rgb(40, 77, 119))";
+                } else if(currentHour >= 12 && currentHour < 15) {
+                    //Color scheme for afternoon
+                    document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(241, 239, 64), rgb(248, 244, 1), rgb(240, 207, 18))";
+                } else if(currentHour >= 15 && currentHour < 18) {
+                    //Color scheme for evening
+                    document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(231, 176, 25), rgb(248, 141, 1), rgb(252, 141, 15))";
+                } else if(currentHour >= 18 && currentHour < 24 || currentHour >= 0 && currentHour < 4) {
+                    //Color scheme for midnight
+                    document.querySelector(".app").style.background = "rgb(0, 0, 0)";
+                } else{
+                    //Color scheme for dawn
+                    document.querySelector(".app").style.background = "linear-gradient(135deg,  rgb(165, 165, 164), rgb(77, 77, 77))";
                 }
-            } else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds") || description.includes("overcast clouds")) {
-                document.querySelector('#weather-icon').style.backgroundImage = "url('clouds.png')";
-            } else if(description.includes("heavy intensity rain") || description.includes("very heavy rain") || description.includes("extreme rain") || description.includes("thunderstorm with heavy rain")) {
-                document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
-            } else if(description.includes("light rain") || description.includes("showers")) {
-                document.querySelector('#weather-icon').style.backgroundImage = "url('light-rain.png')";
-            } else if(description.includes("haze")) {
-                document.querySelector('#weather-icon').style.backgroundImage = "url('haze.png')";
             }
-
-            document.querySelector('#city').innerHTML = `${city}`;
-            document.querySelector('#description').innerHTML = `${description}`;
-            document.querySelector('#temp').innerHTML = `${temperature} °C`;
-            document.querySelector('#humidity').innerHTML = `${humidity}`;
-            document.querySelector('#wind').innerHTML = `${windSpeed}`;
-
-        }
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            displayDate();
-            setInterval(displayTime, 1000);
-            setInterval(updateColors, 1000);
-            setInterval(getLocation, 1000);
-            setInterval(function() {updateUI(weatherData)}, 1000);
-        });
+            
+            //Function to update the UI with weather information
+            function updateUI(weatherData) {
+                //Extract relevant data
+                const city = weatherData.name;
+                const description = weatherData.weather[0].description;
+                const temperature = weatherData.main.temp;
+                const humidity = weatherData.main.humidity;
+                const windSpeed = weatherData.wind.speed;
+                
+                //Varying the weather icon based on the description
+                if(description.includes('windy')) {
+                    document.querySelector('#weather-icon').style.backgroundImage = "url('windy.png')";
+                } else if(description.includes("few clouds") || description.includes("scattered clouds") || description.includes("broken clouds") || description.includes("overcast clouds")) {
+                    document.querySelector('#weather-icon').style.backgroundImage = "url('clouds.png')";
+                } else if(description.includes("heavy intensity rain") || description.includes("very heavy rain") || description.includes("extreme rain") || description.includes("thunderstorm with heavy rain")) {
+                    document.querySelector('#weather-icon').style.backgroundImage = "url('lightning.png')";
+                } else if(description.includes("clear sky")) {
+                    document.querySelector("#weather-icon").style.backgroundImage = "url('sun.png')";
+                } else if(description.includes('clear sky') && currentHour >= 18) {
+                    document.querySelector('#weather-icon').style.backgroundImage = "url('moon.png')";
+                }
+                else if(description.includes("light rain") || description.includes("showers")) {
+                    document.querySelector('#weather-icon').style.backgroundImage = "url('light-rain.png')";
+                }
+                
+                document.querySelector('#city').innerHTML = `${city}`;
+                document.querySelector('#description').innerHTML = `${description}`;
+                document.querySelector('#temp').innerHTML = `${temperature} °C`;
+                document.querySelector('#humidity').innerHTML = `${humidity}`;
+                document.querySelector('#wind').innerHTML = `${windSpeed}`;
+                
+            }
+            
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                displayDate();
+                setInterval(displayTime, 1000);
+                setInterval(updateColors, 1000);
+                setInterval(getLocation, 1000);
+                setInterval(function() {
+                    updateUI(weatherData), 1000
+                });
+            });
 
     </script>
 </body>
