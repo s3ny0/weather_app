@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Combo|Audiowide|Catamaran">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.2.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <!--App styling-->
+    <style>
+
+        @font-face {
+            font-family: "Abel";
+            src: url(abel-regular.ttf);
+        }
+
+        body {
+            font-family: "Abel";
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px auto;
+        }
+
+        #main {
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px auto 0px;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            width: 95%;
+        }
+
+        .main-card {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .weather-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            color: #0000007c;
+        }
+
+        #temp {
+            font-size: 10rem;
+            font-weight: bolder;
+            margin: 0px;
+        }
+
+        #description {
+            font-size: 3rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        .variables {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .variable {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .variable div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #wind, #humidity {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .weather-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #weather-icon {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        #time {
+            font-size: 2rem;
+        }
+
+        .forecast {
+            height: 450px;
+            padding: 20px 0px;
+            display: grid;
+            align-items: center;
+            gap: 10px;
+            background-color: #ffffff;
+            border-radius: 25px;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        #forecast {
+            width: 95%;
+            height: 380px;
+            margin: 0px auto;
+            overflow-y: scroll;
+            background-color: #dadada;
+            border-radius: 20px;
+        }
+        #forecast::-webkit-scrollbar {
+            display: none;
+        }
+
+        .forecast-item {
+            width: 90%;
+            margin: 0px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .forecast-date, .forecast-description{
+            width: 30%;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media screen and (max-width: 799px) {
+            .app {
+                display: grid;
+                grid-template-columns: 1fr;
+                padding: 20px 10px;
+            }
+
+            .main-card {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-icon img {
+                max-width: 300px;
+            }
+
+            .forecast {
+                width: 100%;
+            }
+
+            
+        }
+
+        @media screen and (min-width: 800px) and (max-width: 1000px) {
+            .app {
+                grid-template-columns: 2fr 1fr;
+            }
+
+            .main-card {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            #weather-icon {
+                max-width: 250px;
+            }
+        }
+
+    </style>
+    <title>Weather App</title>
+</head>
+<body>
+    <section id="main">
+        <header>
+            <i class="fi fi-rs-marker"></i><p id="city"></p><p>|</p><p id="date"></p>
+        </header>
+        <div class="app">
+            <div class="main-card">
+                <div class="weather-details">
+                    <h1 id="temp">25°C</h1>
+                    <h2 id="description">Clear Skies</h2>
+                    <h1 id="time"></h1>
+                    <div class="variables">
+                        <div class="variable">
+                            <div>
+                                <i class="fi fi-rs-wind"></i><p>Wind</p>
+                            </div>
+                            <p id="wind">9km/h</p>
+                        </div>
+                        <div class="variable">
+                            <div>
+                                <i class="fi fi-rs-humidity"></i><p>Humidity</p>
+                            </div>
+                            <p id="humidity">70%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-icon">
+                    <img id="weather-icon" src="clouds.png"> 
+                </div>
+
+            </div>
+            <div class="forecast">
+                <h1 style="text-align: center;">Forecast</h1>
+                <div id="forecast"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        
+        // Display the date with the day and month name
+        const displayDate = () => {
+            const today = new Date();
+            const day = today.getDate();
+            const month = today.getMonth(); // getMonth() gives a zero-based index
+            const year = today.getFullYear();
+            const weekDay = today.getDay();
+
+            const daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const monthsOfTheYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            const dayName = daysOfTheWeek[weekDay];
+            const monthName = monthsOfTheYear[month];
+
+            const dateDisplay = document.getElementById("date");
+            dateDisplay.innerHTML = `${dayName}, ${monthName} ${day}, ${year}`;
+        }
+
+        // Display the time in a 12-hour format
+        const displayTime = () => {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            const adjustedHours = hours > 12 ? hours - 12 : hours;
+            const adjustedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+            const timeDisplay = document.getElementById("time");
+
+            if (hours >= 12) {
+                timeDisplay.innerHTML = `${adjustedHours}:${adjustedMinutes} PM`;
+            } else if (hours === 12) {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} PM`;
+            } else {
+                timeDisplay.innerHTML = `${hours}:${adjustedMinutes} AM`;
+            }
+        }
+
+        // Get location coordinates using geolocation with continuous tracking
+        const trackLocation = () => {
+            if (navigator.geolocation) {
+                // Continuously watch the user's position
+                navigator.geolocation.watchPosition(
+                    position => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // Call the function to get weather information based on the new location
+                        getWeatherByLocation(latitude, longitude);
+                    },
+                    error => {
+                        console.error("Error getting geolocation:", error);
+                    },
+                    {
+                        enableHighAccuracy: true,  // Use GPS if available
+                        maximumAge: 30000,         // Accept a cached position no older than 30 seconds
+                        timeout: 5000              // Stop trying to get location after 5 seconds
+                    }
+                );
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        };
+
+
+        // Get weather information by location
+        const getWeatherByLocation = (latitude, longitude) => {
+            const apiKey = '4ec2450f337a6aa01f2764f8672fcfbd'; // API Key from OpenWeatherMap.
+            const apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+
+            fetch(apiURL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(weatherData => {
+                    // Process and update UI with the weather data
+                    updateUI(weatherData);
+                })
+                .catch(error => {
+                    console.error("Error fetching weather data:", error);
+                });
+        };
+
+        // WEATHER FORECAST
+        // Fetch 5-day weather forecast
+        function fetchForecast(city) {
+            const apiKey = '4ec2450f337a6aa01f2764f8672fcfbd';  // Replace with your API key
+            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    displayForecast(data);
+                })
+                .catch(error => console.log(error));
+        }
+
+        // Display the forecast
+        function displayForecast(forecastData) {
+            const forecastElement = document.querySelector('#forecast');  // Assuming you have a container for the forecast
+            let forecastHTML = '';
+
+            // Group forecast by day and take one entry per day
+            const dailyForecasts = groupByDay(forecastData.list);
+
+            dailyForecasts.forEach(day => {
+                const dayDate = new Date(day[0].dt * 1000);  // Convert UNIX timestamp to Date object
+                const dayIcon = day[0].weather[0].icon;
+                const dayTemp = Math.ceil(day[0].main.temp);
+                const dayDescription = day[0].weather[0].description;
+
+                // Construct the forecast item for the day
+                forecastHTML += `
+                    <div class="forecast-item">
+                        <div class="forecast-date">${dayDate.toLocaleDateString()}</div>
+                        <img src="http://openweathermap.org/img/wn/${dayIcon}.png" alt="${dayDescription}" class="forecast-icon" />
+                        <div class="forecast-temp">${dayTemp} °C</div>
+                        <div class="forecast-description">${dayDescription}</div>
+                    </div>
+                `;
+            });
+
+            forecastElement.innerHTML = forecastHTML;
+        }
+
+        // Group the forecast data by day
+        function groupByDay(forecastList) {
+            const days = {};
+
+            forecastList.forEach(entry => {
+                const date = new Date(entry.dt * 1000);  // Convert UNIX timestamp to Date
+                const day = date.toLocaleDateString();  // Use date string (e.g., "2023-07-30")
+
+                if (!days[day]) {
+                    days[day] = [];
+                }
+
+                days[day].push(entry);
+            });
+
+            return Object.values(days);
+        }
+
+
+
+        // UPDATE UI WITH WEATHER INFORMATION
+        function updateUI(weatherData) {
+            // Extract weather data
+            const city = weatherData.name;
+            const description = weatherData.weather[0].description.toLowerCase(); // lowercase for consistency
+            const temperature = weatherData.main.temp;
+            const humidity = weatherData.main.humidity;
+            const windSpeed = weatherData.wind.speed;
+
+            const currentHour = new Date().getHours(); // Current hour (0–23)
+            const mainElement = document.body;
+            const featureElement = document.querySelector(".feature");
+            const appElement = document.querySelector(".app");
+            const weatherIcon = document.querySelector('#weather-icon');
+
+            // Enable smooth transitions
+            //mainElement.style.transition = "background 1s ease";
+            appElement.style.transition = "background 1s ease";
+
+            // Helper for nighttime background
+            function setNightBackground() {
+                mainElement.style.background = "rgb(62, 85, 103)";
+                appElement.style.background = "linear-gradient(205.52deg, #165982 2.15%, #1F3645 49.56%, #192B37 96.96%)";
+            }
+
+            // Set background and icon based on weather description
+            if (description.includes("windy")) {
+                weatherIcon.src = "windy.png";
+                currentHour >= 6 && currentHour <= 18
+                    ? (mainElement.style.background = "rgb(0, 162, 180)",
+                    appElement.style.background = "linear-gradient(203.54deg, #00C8FF 9.05%, #0098C2 48.19%, #006EB2 87.32%)")
+                    : setNightBackground();
+
+            } else if (description.includes("clouds")) {
+                weatherIcon.src = "clouds.png";
+                currentHour >= 6 && currentHour < 18
+                    ? (mainElement.style.background = "rgb(144, 115, 145)",
+                    appElement.style.background = "linear-gradient(204.18deg, #8D778D 12.81%, #6C576C 47.58%, #3B2D3B 82.36%)")
+                    : setNightBackground();
+
+            } else if (description.includes("light rain") || description.includes("shower") || description.includes("drizzle")) {
+                weatherIcon.src = "light-rain.png";
+                currentHour >= 6 && currentHour < 18
+                    ? (mainElement.style.background = "rgb(22, 89, 130)",
+                    appElement.style.background = "linear-gradient(203.54deg, #0099FF 9.05%, #0074C2 48.19%, #124F82 87.32%)")
+                    : setNightBackground();
+
+            } else if (description.includes("heavy rain") || description.includes("thunderstorm")) {
+                weatherIcon.src = "storm.png";
+                currentHour >= 6 && currentHour < 18
+                    ? (mainElement.style.background = "rgb(76, 70, 76)",
+                    appElement.style.background = "linear-gradient(204.18deg, #9B8F9C 12.81%, #665C66 47.58%, #1C191C 82.36%)")
+                    : setNightBackground();
+
+            } else if (description.includes("clear sky")) {
+                weatherIcon.src = "sun.png";
+                if (currentHour >= 6 && currentHour < 12) {
+                    mainElement.style.background = "rgb(0, 155, 238)";
+                    appElement.style.background = "linear-gradient(203.54deg, #1AAFFF 9.05%, #1497DE 48.19%, #0068A0 87.32%)";
+                } else if (currentHour >= 12 && currentHour < 17) {
+                    mainElement.style.background = "rgb(221, 198, 72)";
+                    appElement.style.background = "linear-gradient(204.18deg, #FFF048 12.81%, #FFD000 47.58%, #FFB107 82.36%)";
+                } else if (currentHour >= 17 && currentHour < 18) {
+                    mainElement.style.background = "rgb(201, 82, 52)";
+                    appElement.style.background = "linear-gradient(204.18deg, #FF9500 12.81%, #FF7700 47.58%, #FF3300 82.36%)";
+                } else {
+                    weatherIcon.src = "url('moon.png')";
+                    setNightBackground();
+                }
+
+            } else if (currentHour >= 18) {
+                weatherIcon.src = "moon.png";
+                setNightBackground();
+            }
+
+            // Call to fetch the 5-day forecast
+            fetchForecast(city);
+
+            document.querySelector('#city').innerHTML = `${city.toUpperCase()}`;
+            document.querySelector('#description').innerHTML = `${description}`;
+            document.querySelector('#temp').innerHTML = `${Math.ceil(temperature)} °C`;
+            document.querySelector('#humidity').innerHTML = `${humidity}%`;
+            document.querySelector('#wind').innerHTML = `${Math.ceil(windSpeed)} km/h`;
+        }
+
+       
+
+        // Initialize the app when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            displayDate();
+            displayTime(); // Call once on load
+            setInterval(displayTime, 1000); // Update every minute
+            trackLocation(); //Track the location
+        });
+
+        
+
+
+
+    </script>
+</body>
+</html>
