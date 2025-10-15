@@ -417,7 +417,7 @@
                     appElement.style.background = "linear-gradient(204.18deg, #8D778D 12.81%, #6C576C 47.58%, #3B2D3B 82.36%)")
                     : setNightBackground();
 
-            } else if (description.includes("light rain") || description.includes("shower") || description.includes("drizzle")) {
+            } else if (description.includes("light rain") || description.includes("moderate rain") || description.includes("shower") || description.includes("drizzle")) {
                 weatherIcon.src = "light-rain.png";
                 currentHour >= 6 && currentHour < 18
                     ? (mainElement.style.background = "rgb(22, 89, 130)",
